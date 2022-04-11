@@ -1,0 +1,17 @@
+CREATE DATABASE "PuntoApi";
+
+DROP TABLE IF EXISTS public."Transactions";
+
+CREATE TABLE IF NOT EXISTS public."Transactions"
+(
+    id character varying(50) NOT NULL,
+    date timestamp with time zone NOT NULL,
+    amount character varying(6) NOT NULL,
+    "clientTransId" character varying(10) NOT NULL,
+    "phoneNumber" character(10) NOT NULL,
+    "supplierId" character varying(5) NOT NULL,
+    CONSTRAINT "Transactions_pkey" PRIMARY KEY (id),
+    CONSTRAINT "amountRangeCheck" CHECK (amount::integer >= 1000 AND amount::integer <= 100000) NOT VALID,
+    CONSTRAINT "phoneFirstDigitCheck" CHECK ("left"("phoneNumber"::text, 1) = '3'::text) NOT VALID,
+    CONSTRAINT "phoneLengthCheck" CHECK (length("phoneNumber") = 10) NOT VALID
+)
